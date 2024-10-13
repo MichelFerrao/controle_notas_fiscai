@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Notas Fiscais</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7/jquery.inputmask.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+        }
+        .button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #084d6e;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0b6b91;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #084d6e;
+            color: white;
+        }
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .actions {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão para redirecionar ao cadastro de notas fiscais -->
+    <a href="/cadastro" class="button">Cadastrar Nota Fiscal</a>
+
+    <!-- Lista de notas fiscais -->
+    <h2>Notas Fiscais Emitidas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Data de Emissão</th>
+                <th>Número NF</th>
+                <th>Empresa</th>
+                <th>Cliente</th>
+                <th>Produto/Serviço</th>
+                <th>Valor (R$)</th>
+                <th>Recebido</th>
+                <th>Forma de Pagamento</th>
+                <th>Data de Recebimento</th>
+                <th>Verba</th>
+                <th>Responsável pela Entrega</th>
+                <th>Data de Entrega</th>
+                <th>Quem Recebeu</th>
+                <th class="actions">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nota in notas %}
+            <tr>
+                <td>{{ nota[0] }}</td>   <!-- ID -->
+                <td>{{ nota[1] }}</td>   <!-- Data de Emissão -->
+                <td>{{ nota[2] }}</td>   <!-- Número NF -->
+                <td>{{ nota[3] }}</td>   <!-- Empresa -->
+                <td>{{ nota[4] }}</td>   <!-- Cliente -->
+                <td>{{ nota[5] }}</td>   <!-- Produto/Serviço -->
+                <td>{{ nota[6] }}</td>   <!-- Valor -->
+                <td>{{ 'Sim' if nota[7] == 1 else ('Não' if nota[10] == 0 else 'N/A') }}</td>  <!-- Recebido -->
+                <td>{{ nota[8] or 'N/A' }}</td>  <!-- Forma de Pagamento -->
+                <td>{{ nota[9] or 'N/A' }}</td>  <!-- Data de Recebimento -->
+                <td>{{ nota[10] or 'N/A' }}</td>  <!-- Verba -->
+                <td>{{ nota[11] or 'N/A' }}</td>  <!-- Responsável pela Entrega -->
+                <td>{{ nota[12] or 'N/A' }}</td>  <!-- Data de Entrega -->
+                <td>{{ nota[13] or 'N/A' }}</td>  <!-- Quem Recebeu -->
+                <td class="actions">
+                    <a href="/edit/{{ nota[0] }}">Editar</a> |
+                    <a href="/delete/{{ nota[0] }}" onclick="return confirm('Tem certeza que deseja excluir esta nota fiscal?');">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
