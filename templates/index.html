@@ -49,6 +49,7 @@
         th {
             background-color: #084d6e;
             color: white;
+            cursor: pointer; /* Muda o cursor ao passar o mouse sobre o cabeçalho da tabela */
         }
         tbody tr:hover {
             background-color: #f1f1f1;
@@ -84,7 +85,7 @@
                 <th class="actions">Ações</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="notas-fiscais">
             {% for nota in notas %}
             <tr>
                 <td>{{ nota[0] }}</td>   <!-- ID -->
@@ -110,37 +111,69 @@
         </tbody>
     </table>
 
-    <!-- Exibir o total da soma das notas fiscais -->
+    <!-- Exibir os totais -->
     <h2>Total de Notas Fiscais Emitidas: R$ <span id="total-soma">0.00</span></h2>
+    <h2>Total de Notas Fiscais Recebidas: <span id="total-recebidas">0</span></h2>
+    <h2>Total de Notas Fiscais Pendentes: <span id="total-pendentes">0</span></h2>
 
-    <!-- Script para calcular o total -->
+    <!-- Script para calcular os totais e ordenar por data -->
     <script>
-        function calcularTotal() {
+        function calcularTotais() {
             let total = 0;
+            let totalRecebidas = 0;
+            let totalPendentes = 0;
 
-            // Seleciona todas as células que contêm os valores das notas
-            const valores = document.querySelectorAll('tbody tr td:nth-child(7)');
+            // Seleciona todas as linhas da tabela
+            const linhas = document.querySelectorAll('tbody tr');
 
-            valores.forEach(valor => {
+            linhas.forEach(linha => {
+                // Extrai o valor da nota (7ª coluna)
+                const valorCelula = linha.querySelector('td:nth-child(7)');
+                const recebidoCelula = linha.querySelector('td:nth-child(8)');
+
                 // Extrai o valor numérico, substituindo a vírgula por ponto para conversão correta
-                let valorNumerico = valor.textContent.trim().replace('R$', '').replace('.', '').replace(',', '.');
+                let valor = valorCelula.textContent.trim().replace('R$', '').replace('.', '').replace(',', '.');
+                valor = parseFloat(valor);
 
-                // Converte o valor em número
-                valorNumerico = parseFloat(valorNumerico);
+                // Verifica se o valor é um número válido
+                if (!isNaN(valor)) {
+                    total += valor;  // Soma o valor ao total
 
-                // Verifica se o valor é um número válido e o adiciona ao total
-                if (!isNaN(valorNumerico)) {
-                    total += valorNumerico;
+                    // Verifica se a nota foi recebida
+                    if (recebidoCelula.textContent.trim() === 'Sim') {
+                        totalRecebidas++;  // Incrementa total de recebidas
+                    } else if (recebidoCelula.textContent.trim() === 'Não') {
+                        totalPendentes++;  // Incrementa total de pendentes
+                    }
                 }
             });
 
-            // Atualiza o elemento com o total somado
+            // Atualiza os elementos com os totais somados
             document.getElementById('total-soma').textContent = total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('total-recebidas').textContent = totalRecebidas;
+            document.getElementById('total-pendentes').textContent = totalPendentes;
         }
 
-        // Executa a função assim que o DOM estiver completamente carregado
-        document.addEventListener('DOMContentLoaded', calcularTotal);
+        function ordenarNotasPorData() {
+            const tbody = document.getElementById('notas-fiscais');
+            const linhas = Array.from(tbody.querySelectorAll('tr'));
+
+            linhas.sort((a, b) => {
+                // Converte as datas para o formato YYYY-MM-DD para comparação
+                const dataA = new Date(a.cells[1].textContent.trim().split('/').reverse().join('-')); // Convertendo DD/MM/YYYY para YYYY-MM-DD
+                const dataB = new Date(b.cells[1].textContent.trim().split('/').reverse().join('-'));
+                return dataA - dataB;  // Ordena em ordem crescente
+            });
+
+            // Adiciona as linhas ordenadas de volta ao tbody
+            linhas.forEach(linha => tbody.appendChild(linha));
+        }
+
+        // Executa as funções assim que o DOM estiver completamente carregado
+        document.addEventListener('DOMContentLoaded', () => {
+            calcularTotais();
+            ordenarNotasPorData(); // Chama a função para ordenar as notas por data
+        });
     </script>
 </body>
 </html>
-
