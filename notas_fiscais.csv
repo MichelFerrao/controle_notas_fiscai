@@ -1,0 +1,16 @@
+﻿ID;Data de Emissão;Número NF;Empresa;Cliente;Produto/Serviço;Valor;Recebido;Forma de Pagamento;Data de Recebimento;Verba;Responsável pela Entrega;Data de Entrega;Quem Recebeu
+1;08/01/2024;463;Armazém;Eng. Pedreira;MANUTENÇÃO CUSTEIO - ABATIMENTO DEBITOS 2023; R$ 4.812,38 ;1;Cheque;05/02/2024;Manutenção;;;
+2;08/01/2024;465;Armazém;João Paulo;MANUTENÇÃO SUPRIMENTOS - ABATIMENTO DEBITOS 2023; R$ 5.727,60 ;1;Transferência;05/02/2024;Manutenção;;;
+3;12/01/2024;467;Armazém;Eng. Pedreira;MANUTENÇÃO CAPITAL; R$ 8.945,00 ;1;Cheque;05/02/2024;Manutenção;;;
+4;15/01/2024;468;Armazém;Eng. Pedreira;MANUTENÇÃO CAPITAL; R$ 5.534,73 ;1;Cheque;05/02/2024;Manutenção;;;
+5;29/01/2024;470;Armazém;João Paulo;MANUTENÇÃO PAPELARIA - ABATIMENTO DEBITOS 2023; R$ 5.272,40 ;1;Transferência;05/02/2024;Manutenção;;;
+6;29/01/2024;472;Armazém;Eng. Pedreira;MANUTENÇÃO CUSTEIO - ABATIMENTO DEBITOS 2023; R$ 4.123,30 ;1;Cheque;05/02/2024;Manutenção;;;
+7;29/01/2024;473;Armazém;CIEP 216;MANUTENÇÃO PAPELARIA E LIMPEZA - 859-894; R$ 1.174,10 ;1;Transferência;28/02/2024;Manutenção;;;
+8;29/01/2024;474;Armazém;CIEP 134;MANUTENÇÃO / PAPELARIA - VENDAS 839 - 842; R$ 6.238,43 ;1;Transferência;30/04/2024;Manutenção;;;
+9;29/01/2024;475;Armazém;CIEP 134;MANUTENÇÃO / LIMPEZA - VENDAS 837 - 862 - 893 - 896 - 899; R$ 2.962,15 ;1;Transferência;30/04/2024;Manutenção;;;
+10;29/01/2024;2024 01;JL;CIEP 324;SERVIÇO CAPINA - OS 114 - 116; R$ 1.800,00 ;1;Transferência;19/02/2024;Despesas;;;
+11;30/01/2024;06;MF;CIEP 324;SERVIÇO - REPARO DO MOTOR AUTOMATICO DO PORTÃO - OS 121; R$ 2.800,00 ;1;Transferência;19/02/2024;Serviço;;;
+12;30/01/2024;480;Armazém;Eng. Pedreira;MANUTENÇÃO CUSTEIO - ABATIMENTO DEBITOS 2023; R$ 4.430,57 ;1;Cheque;05/02/2024;Manutenção;;;
+13;30/01/2024;481;Armazém;Marcílio Dias;MANUTENÇÃO - PAPELARIA - VENDAS 843 - 878 - 909; R$ 2.407,19 ;1;Transferência;10/05/2024;Manutenção;;;
+14;30/01/2024;482;Armazém;Marcílio Dias;MANUTENÇÃO - LIMPEZA - VENDAS 844 - 877 - 908; R$ 498,83 ;1;Transferência;08/05/2024;Manutenção;;;
+15;31/01/2024;2024 02;JL;CIEP 134;SERVIÇO - REFORMA DE SOFÁS - OS 111; R$ 1.970,00 ;1;Transferência;30/04/2024;Serviço;;;
