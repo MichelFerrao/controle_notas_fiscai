@@ -109,5 +109,38 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <!-- Exibir o total da soma das notas fiscais -->
+    <h2>Total de Notas Fiscais Emitidas: R$ <span id="total-soma">0.00</span></h2>
+
+    <!-- Script para calcular o total -->
+    <script>
+        function calcularTotal() {
+            let total = 0;
+
+            // Seleciona todas as células que contêm os valores das notas
+            const valores = document.querySelectorAll('tbody tr td:nth-child(7)');
+
+            valores.forEach(valor => {
+                // Extrai o valor numérico, substituindo a vírgula por ponto para conversão correta
+                let valorNumerico = valor.textContent.trim().replace('R$', '').replace('.', '').replace(',', '.');
+
+                // Converte o valor em número
+                valorNumerico = parseFloat(valorNumerico);
+
+                // Verifica se o valor é um número válido e o adiciona ao total
+                if (!isNaN(valorNumerico)) {
+                    total += valorNumerico;
+                }
+            });
+
+            // Atualiza o elemento com o total somado
+            document.getElementById('total-soma').textContent = total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Executa a função assim que o DOM estiver completamente carregado
+        document.addEventListener('DOMContentLoaded', calcularTotal);
+    </script>
 </body>
 </html>
+
