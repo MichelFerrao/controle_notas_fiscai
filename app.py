@@ -1,5 +1,6 @@
 import locale
 import sqlite3
+import pandas as pd
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 

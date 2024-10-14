@@ -1,58 +1,45 @@
+import pandas as pd
 import sqlite3
-import csv
-import codecs
 
-def create_table():
-    conn = sqlite3.connect('notas_fiscais.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS notas_fiscais (
-        id INTEGER PRIMARY KEY,
-        numero_nf TEXT,
-        data_criacao TEXT,
-        empresa TEXT,
-        cliente TEXT,
-        produto_servico TEXT,
-        tipo TEXT,
-        valor REAL,
-        recebido TEXT,
-        data_recebimento TEXT,
-        verba_utilizada TEXT,
-        pendente_pagamento TEXT,
-        data_entrega TEXT,
-        responsavel_entrega TEXT,
-        responsavel_recebimento TEXT
-    )
-    ''')
-    conn.commit()
-    conn.close()
-    print("Tabela criada com sucesso (ou já existia).")
+# Conectar ao banco de dados SQLite (ou criar se não existir)
+conn = sqlite3.connect('notas_fiscais.db')
+cursor = conn.cursor()
 
-def import_csv():
-    create_table()
-    conn = sqlite3.connect('notas_fiscais.db')
-    cursor = conn.cursor()
+# Criar a tabela notas_fiscais (caso ainda não exista)
+# Ajuste os tipos de dados conforme necessário para suas colunas
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS notas_fiscais (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    data TEXT,
+    empresa TEXT,
+    cliente TEXT,
+    produto TEXT,
+    tipo TEXT,
+    valor REAL,
+    forma_pagamento TEXT,
+    numero_nf TEXT,
+    data_recebimento TEXT,
+    recebido TEXT
+)
+''')
+
+conn.commit()
+
+try:
+    # Ler o arquivo CSV usando pandas
+    df = pd.read_csv('dados.csv')
     
-    try:
-        with codecs.open('dados.csv', 'r', encoding='utf-8') as file:
-            reader = csv.DictReader(file, delimiter=';')
-            for row in reader:
-                print(f"Importando linha: {row}")
-                cursor.execute('''
-                INSERT INTO notas_fiscais (numero_nf, data_criacao, empresa, cliente, produto_servico, tipo, valor, recebido, data_recebimento, verba_utilizada, pendente_pagamento, data_entrega, responsavel_entrega, responsavel_recebimento)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ''', (
-                    row['Nº NF'], row['Data de Emissão'], row['Empresa'], row['Cliente'], row['Produto/Serviço'], 
-                    row['Valor'].replace('R$ ', '').replace('.', '').replace(',', '.'),  # Formatar valor corretamente
-                    row['Recebido'], row['Data de Recebimento'], row['Verba'], 
-                    row['Pendente'], row['Data de Entrega'], row['Responsável pela Entrega'], row['Quem Recebeu']
-                ))
-            conn.commit()
-            print("Importação concluída com sucesso.")
-    except Exception as e:
-        print(f'Erro ao importar CSV: {e}')
-    finally:
-        conn.close()
+    # Verificar se as colunas do CSV correspondem às colunas da tabela
+    print("Colunas do CSV:", df.columns)
 
-if __name__ == "__main__":
-    import_csv()
+    # Inserir os dados no banco de dados SQLite
+    df.to_sql('notas_fiscais', conn, if_exists='append', index=False)
+    
+    print("Dados importados com sucesso!")
+
+except Exception as e:
+    print("Erro ao importar dados:", e)
+
+finally:
+    # Fechar a conexão com o banco de dados
+    conn.close()
