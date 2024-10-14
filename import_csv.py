@@ -1,45 +1,38 @@
-import pandas as pd
 import sqlite3
+import pandas as pd
 
-# Conectar ao banco de dados SQLite (ou criar se não existir)
+# Conectar ao banco de dados
 conn = sqlite3.connect('notas_fiscais.db')
 cursor = conn.cursor()
 
-# Criar a tabela notas_fiscais (caso ainda não exista)
-# Ajuste os tipos de dados conforme necessário para suas colunas
+# Criar ou limpar a tabela
+cursor.execute('DROP TABLE IF EXISTS notas_fiscais;')
+conn.commit()  # Confirma a exclusão da tabela
+
+# Criar a nova tabela
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS notas_fiscais (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    data TEXT,
-    empresa TEXT,
-    cliente TEXT,
-    produto TEXT,
-    tipo TEXT,
-    valor REAL,
-    forma_pagamento TEXT,
-    numero_nf TEXT,
-    data_recebimento TEXT,
-    recebido TEXT
-)
+CREATE TABLE notas_fiscais (
+    ID INTEGER PRIMARY KEY,
+    "Data de emissao" TEXT,
+    "Numero NF" TEXT,
+    "Empresa" TEXT,
+    "Cliente" TEXT,
+    "Produto/Servico" TEXT,
+    "Valor" REAL,
+    "Recebido" INTEGER,
+    "Forma de Pagamento" TEXT,
+    "Data de Recebimento" TEXT,
+    "Verba" TEXT,
+    "Responsavel pela Entrega" TEXT,
+    "Data de Entrega" TEXT,
+    "Quem Recebeu" TEXT
+);
 ''')
+conn.commit()  # Confirma a criação da tabela
 
-conn.commit()
+# Importar os dados do CSV
+df = pd.read_csv('dados.csv', sep=';')
+df.to_sql('notas_fiscais', conn, if_exists='append', index=False)
 
-try:
-    # Ler o arquivo CSV usando pandas
-    df = pd.read_csv('dados.csv')
-    
-    # Verificar se as colunas do CSV correspondem às colunas da tabela
-    print("Colunas do CSV:", df.columns)
-
-    # Inserir os dados no banco de dados SQLite
-    df.to_sql('notas_fiscais', conn, if_exists='append', index=False)
-    
-    print("Dados importados com sucesso!")
-
-except Exception as e:
-    print("Erro ao importar dados:", e)
-
-finally:
-    # Fechar a conexão com o banco de dados
-    conn.close()
+# Fechar a conexão
+conn.close()
