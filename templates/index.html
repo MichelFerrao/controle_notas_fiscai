@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7/jquery.inputmask.min.js"></script>
     <style>
+        /* Seu CSS existente */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -49,10 +50,15 @@
         th {
             background-color: #084d6e;
             color: white;
-            cursor: pointer; /* Muda o cursor ao passar o mouse sobre o cabeçalho da tabela */
         }
         tbody tr:hover {
             background-color: #f1f1f1;
+        }
+        .filter-input {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .actions {
             text-align: center;
@@ -60,9 +66,13 @@
     </style>
 </head>
 <body>
+
     <!-- Botão para redirecionar ao cadastro de notas fiscais -->
     <a href="/cadastro" class="button">Cadastrar Nota Fiscal</a>
     <button onclick="window.location.href='filtros.html'">Ir para Filtros de Notas Fiscais</button>
+
+    <!-- Campo de filtro -->
+    <input type="text" id="filtro" class="filter-input" placeholder="Filtrar por qualquer campo...">
 
     <!-- Lista de notas fiscais -->
     <h2>Notas Fiscais Emitidas</h2>
@@ -117,63 +127,62 @@
     <h2>Total de Notas Fiscais Recebidas: R$ <span id="total-recebidas">0.00</span></h2>
     <h2>Total de Notas Fiscais Pendentes: R$ <span id="total-pendentes">0.00</span></h2>
 
-    <!-- Script para calcular os totais e ordenar por data -->
+    <!-- Script para filtro e cálculo dos totais -->
     <script>
         function calcularTotais() {
             let total = 0;
             let totalRecebidas = 0;
             let totalPendentes = 0;
 
-            // Seleciona todas as linhas da tabela
+            // Seleciona todas as linhas visíveis da tabela
             const linhas = document.querySelectorAll('tbody tr');
 
             linhas.forEach(linha => {
-                // Extrai o valor da nota (7ª coluna)
-                const valorCelula = linha.querySelector('td:nth-child(7)');
-                const recebidoCelula = linha.querySelector('td:nth-child(8)');
+                if (linha.style.display !== 'none') { // Filtra apenas as linhas visíveis
+                    const valorCelula = linha.querySelector('td:nth-child(7)');
+                    const recebidoCelula = linha.querySelector('td:nth-child(8)');
 
-                // Extrai o valor numérico, substituindo a vírgula por ponto para conversão correta
-                let valor = valorCelula.textContent.trim().replace('R$', '').replace('.', '').replace(',', '.');
-                valor = parseFloat(valor);
+                    let valor = valorCelula.textContent.trim().replace('R$', '').replace('.', '').replace(',', '.');
+                    valor = parseFloat(valor);
 
-                // Verifica se o valor é um número válido
-                if (!isNaN(valor)) {
-                    total += valor;  // Soma o valor ao total
+                    if (!isNaN(valor)) {
+                        total += valor;
 
-                    // Verifica se a nota foi recebida
-                    if (recebidoCelula.textContent.trim() === 'Sim') {
-                        totalRecebidas += valor;  // Soma o valor ao total de recebidas
-                    } else if (recebidoCelula.textContent.trim() === 'Não') {
-                        totalPendentes += valor;  // Soma o valor ao total de pendentes
+                        if (recebidoCelula.textContent.trim() === 'Sim') {
+                            totalRecebidas += valor;
+                        } else if (recebidoCelula.textContent.trim() === 'Não') {
+                            totalPendentes += valor;
+                        }
                     }
                 }
             });
 
-            // Atualiza os elementos com os totais somados
             document.getElementById('total-soma').textContent = total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             document.getElementById('total-recebidas').textContent = totalRecebidas.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             document.getElementById('total-pendentes').textContent = totalPendentes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        function ordenarNotasPorData() {
-            const tbody = document.getElementById('notas-fiscais');
-            const linhas = Array.from(tbody.querySelectorAll('tr'));
+        // Função para filtrar as notas fiscais
+        function filtrarNotas() {
+            const filtro = document.getElementById('filtro').value.toLowerCase();
+            const linhas = document.querySelectorAll('tbody tr');
 
-            linhas.sort((a, b) => {
-                // Converte as datas para o formato YYYY-MM-DD para comparação
-                const dataA = new Date(a.cells[1].textContent.trim().split('/').reverse().join('-')); // Convertendo DD/MM/YYYY para YYYY-MM-DD
-                const dataB = new Date(b.cells[1].textContent.trim().split('/').reverse().join('-'));
-                return dataA - dataB;  // Ordena em ordem crescente
+            linhas.forEach(linha => {
+                const texto = linha.textContent.toLowerCase();
+                if (texto.includes(filtro)) {
+                    linha.style.display = '';
+                } else {
+                    linha.style.display = 'none';
+                }
             });
 
-            // Adiciona as linhas ordenadas de volta ao tbody
-            linhas.forEach(linha => tbody.appendChild(linha));
+            calcularTotais();  // Atualiza os totais após o filtro
         }
 
-        // Executa as funções assim que o DOM estiver completamente carregado
+        document.getElementById('filtro').addEventListener('input', filtrarNotas);
+
         document.addEventListener('DOMContentLoaded', () => {
-            calcularTotais();
-            ordenarNotasPorData(); // Chama a função para ordenar as notas por data
+            calcularTotais();  // Calcula totais ao carregar a página
         });
     </script>
 </body>
