@@ -8,62 +8,99 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7/jquery.inputmask.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h2 {
-            text-align: center;
-        }
-        .button {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 10px;
-            background-color: #084d6e;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #0b6b91;
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #084d6e;
-            color: white;
-            cursor: pointer; /* Muda o cursor ao passar o mouse sobre o cabeçalho da tabela */
-        }
-        tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-        .actions {
-            text-align: center;
-        }
+        /* Estilos mantidos conforme sua implementação anterior */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; }
+        h2 { text-align: center; }
+        .button, .filter-button { display: block; width: 200px; margin: 20px auto; padding: 10px; background-color: #084d6e; color: white; text-align: center; text-decoration: none; border-radius: 5px; transition: background-color 0.3s; cursor: pointer; }
+        .button:hover, .filter-button:hover { background-color: #0b6b91; }
+        .filter-section { margin: 20px auto; padding: 15px; border-radius: 8px; background-color: #fff; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .filter-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; justify-items: center; }
+        .filter-input { padding: 8px; width: 100%; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; background-color: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #084d6e; color: white; cursor: pointer; }
+        tbody tr:hover { background-color: #f1f1f1; }
+        .actions { text-align: center; }
     </style>
 </head>
 <body>
-    <!-- Botão para redirecionar ao cadastro de notas fiscais -->
     <a href="/cadastro" class="button">Cadastrar Nota Fiscal</a>
 
-    <!-- Lista de notas fiscais -->
+    <div class="filter-section">
+        <h2>Filtros de Notas Fiscais</h2>
+        <div class="filter-row">
+            <div>
+                <label for="filter-data-inicial">Data Emissão Inicial</label>
+                <input type="date" class="filter-input" id="filter-data-inicial">
+            </div>
+            <div>
+                <label for="filter-data-final">Data Emissão Final</label>
+                <input type="date" class="filter-input" id="filter-data-final">
+            </div>
+            <div>
+                <label for="filter-nf">Número NF</label>
+                <input type="text" class="filter-input" placeholder="Número NF" id="filter-nf">
+            </div>
+            <div>
+                <label for="filter-empresa">Empresa</label>
+                <input type="text" class="filter-input" placeholder="Empresa" id="filter-empresa">
+            </div>
+            <div>
+                <label for="filter-cliente">Cliente</label>
+                <input type="text" class="filter-input" placeholder="Cliente" id="filter-cliente">
+            </div>
+            <div>
+                <label for="filter-produto">Produto/Serviço</label>
+                <input type="text" class="filter-input" placeholder="Produto/Serviço" id="filter-produto">
+            </div>
+            <div>
+                <label for="filter-valor">Valor (R$)</label>
+                <input type="number" class="filter-input" placeholder="Valor (R$)" id="filter-valor">
+            </div>
+            <div>
+                <label for="filter-recebido">Recebido</label>
+                <select class="filter-input" id="filter-recebido">
+                    <option value="">Recebido</option>
+                    <option value="1">Sim</option>
+                    <option value="0">Não</option>
+                </select>
+            </div>
+            <div>
+                <label for="filter-forma-pagamento">Forma de Pagamento</label>
+                <input type="text" class="filter-input" placeholder="Forma de Pagamento" id="filter-forma-pagamento">
+            </div>
+            <div>
+                <label for="filter-data-recebimento-inicial">Data Recebimento Inicial</label>
+                <input type="date" class="filter-input" id="filter-data-recebimento-inicial">
+            </div>
+            <div>
+                <label for="filter-data-recebimento-final">Data Recebimento Final</label>
+                <input type="date" class="filter-input" id="filter-data-recebimento-final">
+            </div>
+            <div>
+                <label for="filter-verba">Verba</label>
+                <input type="text" class="filter-input" placeholder="Verba" id="filter-verba">
+            </div>
+            <div>
+                <label for="filter-responsavel-entrega">Responsável pela Entrega</label>
+                <input type="text" class="filter-input" placeholder="Responsável pela Entrega" id="filter-responsavel-entrega">
+            </div>
+            <div>
+                <label for="filter-data-entrega-inicial">Data Entrega Inicial</label>
+                <input type="date" class="filter-input" id="filter-data-entrega-inicial">
+            </div>
+            <div>
+                <label for="filter-data-entrega-final">Data Entrega Final</label>
+                <input type="date" class="filter-input" id="filter-data-entrega-final">
+            </div>
+            <div>
+                <label for="filter-quem-recebeu">Quem Recebeu</label>
+                <input type="text" class="filter-input" placeholder="Quem Recebeu" id="filter-quem-recebeu">
+            </div>
+        </div>
+        <button class="filter-button" onclick="filtrarNotas()">Filtrar</button>
+    </div>
+
     <h2>Notas Fiscais Emitidas</h2>
     <table>
         <thead>
@@ -88,92 +125,75 @@
         <tbody id="notas-fiscais">
             {% for nota in notas %}
             <tr>
-                <td>{{ nota[0] }}</td>   <!-- ID -->
-                <td>{{ nota[1] }}</td>   <!-- Data de Emissão -->
-                <td>{{ nota[2] }}</td>   <!-- Número NF -->
-                <td>{{ nota[3] }}</td>   <!-- Empresa -->
-                <td>{{ nota[4] }}</td>   <!-- Cliente -->
-                <td>{{ nota[5] }}</td>   <!-- Produto/Serviço -->
-                <td>{{ nota[6] }}</td>   <!-- Valor -->
-                <td>{{ 'Sim' if nota[7] == 1 else ('Não' if nota[10] == 0 else 'Não') }}</td>  <!-- Recebido -->
-                <td>{{ nota[8] or '' }}</td>  <!-- Forma de Pagamento -->
-                <td>{{ nota[9] or '' }}</td>  <!-- Data de Recebimento -->
-                <td>{{ nota[10] or '' }}</td>  <!-- Verba -->
-                <td>{{ nota[11] or '' }}</td>  <!-- Responsável pela Entrega -->
-                <td>{{ nota[12] or '' }}</td>  <!-- Data de Entrega -->
-                <td>{{ nota[13] or '' }}</td>  <!-- Quem Recebeu -->
+                <td>{{ nota[0] }}</td>
+                <td>{{ nota[1] }}</td>
+                <td>{{ nota[2] }}</td>
+                <td>{{ nota[3] }}</td>
+                <td>{{ nota[4] }}</td>
+                <td>{{ nota[5] }}</td>
+                <td>{{ nota[6] }}</td>
+                <td>{{ 'Sim' if nota[7] == 1 else 'Não' }}</td>
+                <td>{{ nota[8] or '' }}</td>
+                <td>{{ nota[9] or '' }}</td>
+                <td>{{ nota[10] or '' }}</td>
+                <td>{{ nota[11] or '' }}</td>
+                <td>{{ nota[12] or '' }}</td>
+                <td>{{ nota[13] or '' }}</td>
                 <td class="actions">
-                    <a href="/edit/{{ nota[0] }}">Editar</a> |
-                    <a href="/delete/{{ nota[0] }}" onclick="return confirm('Tem certeza que deseja excluir esta nota fiscal?');">Excluir</a>
+                    <a href="/editar/{{ nota[0] }}">Editar</a>
+                    <a href="/deletar/{{ nota[0] }}" onclick="return confirm('Tem certeza que deseja deletar esta nota?')">Deletar</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <!-- Exibir os totais -->
-    <h2>Total de Notas Fiscais Emitidas: R$ <span id="total-soma">0.00</span></h2>
-    <h2>Total de Notas Fiscais Recebidas: R$ <span id="total-recebidas">0.00</span></h2>
-    <h2>Total de Notas Fiscais Pendentes: R$ <span id="total-pendentes">0.00</span></h2>
-
-    <!-- Script para calcular os totais e ordenar por data -->
     <script>
-        function calcularTotais() {
-            let total = 0;
-            let totalRecebidas = 0;
-            let totalPendentes = 0;
+        function filtrarNotas() {
+            const dataInicial = document.getElementById('filter-data-inicial').value;
+            const dataFinal = document.getElementById('filter-data-final').value;
+            const numeroNF = document.getElementById('filter-nf').value.toLowerCase();
+            const empresa = document.getElementById('filter-empresa').value.toLowerCase();
+            const cliente = document.getElementById('filter-cliente').value.toLowerCase();
+            const produto = document.getElementById('filter-produto').value.toLowerCase();
+            const valor = document.getElementById('filter-valor').value;
+            const recebido = document.getElementById('filter-recebido').value;
+            const formaPagamento = document.getElementById('filter-forma-pagamento').value.toLowerCase();
+            const dataRecebimentoInicial = document.getElementById('filter-data-recebimento-inicial').value;
+            const dataRecebimentoFinal = document.getElementById('filter-data-recebimento-final').value;
+            const verba = document.getElementById('filter-verba').value.toLowerCase();
+            const responsavelEntrega = document.getElementById('filter-responsavel-entrega').value.toLowerCase();
+            const dataEntregaInicial = document.getElementById('filter-data-entrega-inicial').value;
+            const dataEntregaFinal = document.getElementById('filter-data-entrega-final').value;
+            const quemRecebeu = document.getElementById('filter-quem-recebeu').value.toLowerCase();
 
-            // Seleciona todas as linhas da tabela
-            const linhas = document.querySelectorAll('tbody tr');
+            const linhas = document.querySelectorAll('#notas-fiscais tr');
 
             linhas.forEach(linha => {
-                // Extrai o valor da nota (7ª coluna)
-                const valorCelula = linha.querySelector('td:nth-child(7)');
-                const recebidoCelula = linha.querySelector('td:nth-child(8)');
+                const tds = linha.querySelectorAll('td');
+                const [id, dataEmissao, numero, empresaNota, clienteNota, produtoNota, valorNota, recebidoNota, formaPagamentoNota, dataRecebimentoNota, verbaNota, responsavelNota, dataEntregaNota, quemNota] = Array.from(tds).map(td => td.textContent.toLowerCase());
 
-                // Extrai o valor numérico, substituindo a vírgula por ponto para conversão correta
-                let valor = valorCelula.textContent.trim().replace('R$', '').replace('.', '').replace(',', '.');
-                valor = parseFloat(valor);
+                const isVisible = 
+                    (!dataInicial || dataEmissao >= dataInicial) &&
+                    (!dataFinal || dataEmissao <= dataFinal) &&
+                    (!numeroNF || numero.includes(numeroNF)) &&
+                    (!empresa || empresaNota.includes(empresa)) &&
+                    (!cliente || clienteNota.includes(cliente)) &&
+                    (!produto || produtoNota.includes(produto)) &&
+                    (!valor || valorNota == valor) &&
+                    (!recebido || (recebidoNota === 'sim' && recebido === '1') || (recebidoNota === 'não' && recebido === '0')) &&
+                    (!formaPagamento || formaPagamentoNota.includes(formaPagamento)) &&
+                    (!dataRecebimentoInicial || dataRecebimentoNota >= dataRecebimentoInicial) &&
+                    (!dataRecebimentoFinal || dataRecebimentoNota <= dataRecebimentoFinal) &&
+                    (!verba || verbaNota.includes(verba)) &&
+                    (!responsavelEntrega || responsavelNota.includes(responsavelEntrega)) &&
+                    (!dataEntregaInicial || dataEntregaNota >= dataEntregaInicial) &&
+                    (!dataEntregaFinal || dataEntregaNota <= dataEntregaFinal) &&
+                    (!quemRecebeu || quemNota.includes(quemRecebeu));
 
-                // Verifica se o valor é um número válido
-                if (!isNaN(valor)) {
-                    total += valor;  // Soma o valor ao total
-
-                    // Verifica se a nota foi recebida
-                    if (recebidoCelula.textContent.trim() === 'Sim') {
-                        totalRecebidas += valor;  // Soma o valor ao total de recebidas
-                    } else if (recebidoCelula.textContent.trim() === 'Não') {
-                        totalPendentes += valor;  // Soma o valor ao total de pendentes
-                    }
-                }
+                linha.style.display = isVisible ? '' : 'none';
             });
-
-            // Atualiza os elementos com os totais somados
-            document.getElementById('total-soma').textContent = total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('total-recebidas').textContent = totalRecebidas.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('total-pendentes').textContent = totalPendentes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
-
-        function ordenarNotasPorData() {
-            const tbody = document.getElementById('notas-fiscais');
-            const linhas = Array.from(tbody.querySelectorAll('tr'));
-
-            linhas.sort((a, b) => {
-                // Converte as datas para o formato YYYY-MM-DD para comparação
-                const dataA = new Date(a.cells[1].textContent.trim().split('/').reverse().join('-')); // Convertendo DD/MM/YYYY para YYYY-MM-DD
-                const dataB = new Date(b.cells[1].textContent.trim().split('/').reverse().join('-'));
-                return dataA - dataB;  // Ordena em ordem crescente
-            });
-
-            // Adiciona as linhas ordenadas de volta ao tbody
-            linhas.forEach(linha => tbody.appendChild(linha));
-        }
-
-        // Executa as funções assim que o DOM estiver completamente carregado
-        document.addEventListener('DOMContentLoaded', () => {
-            calcularTotais();
-            ordenarNotasPorData(); // Chama a função para ordenar as notas por data
-        });
     </script>
 </body>
 </html>
