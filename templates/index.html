@@ -95,7 +95,7 @@
                 <td>{{ nota[4] }}</td>   <!-- Cliente -->
                 <td>{{ nota[5] }}</td>   <!-- Produto/Serviço -->
                 <td>{{ nota[6] }}</td>   <!-- Valor -->
-                <td>{{ 'Sim' if nota[7] == 1 else ('Não' if nota[10] == 0 else 'N/A') }}</td>  <!-- Recebido -->
+                <td>{{ 'Sim' if nota[7] == 1 else ('Não' if nota[10] == 0 else 'Não') }}</td>  <!-- Recebido -->
                 <td>{{ nota[8] or 'N/A' }}</td>  <!-- Forma de Pagamento -->
                 <td>{{ nota[9] or 'N/A' }}</td>  <!-- Data de Recebimento -->
                 <td>{{ nota[10] or 'N/A' }}</td>  <!-- Verba -->
@@ -113,8 +113,8 @@
 
     <!-- Exibir os totais -->
     <h2>Total de Notas Fiscais Emitidas: R$ <span id="total-soma">0.00</span></h2>
-    <h2>Total de Notas Fiscais Recebidas: <span id="total-recebidas">0</span></h2>
-    <h2>Total de Notas Fiscais Pendentes: <span id="total-pendentes">0</span></h2>
+    <h2>Total de Notas Fiscais Recebidas: R$ <span id="total-recebidas">0.00</span></h2>
+    <h2>Total de Notas Fiscais Pendentes: R$ <span id="total-pendentes">0.00</span></h2>
 
     <!-- Script para calcular os totais e ordenar por data -->
     <script>
@@ -141,17 +141,17 @@
 
                     // Verifica se a nota foi recebida
                     if (recebidoCelula.textContent.trim() === 'Sim') {
-                        totalRecebidas++;  // Incrementa total de recebidas
+                        totalRecebidas += valor;  // Soma o valor ao total de recebidas
                     } else if (recebidoCelula.textContent.trim() === 'Não') {
-                        totalPendentes++;  // Incrementa total de pendentes
+                        totalPendentes += valor;  // Soma o valor ao total de pendentes
                     }
                 }
             });
 
             // Atualiza os elementos com os totais somados
             document.getElementById('total-soma').textContent = total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('total-recebidas').textContent = totalRecebidas;
-            document.getElementById('total-pendentes').textContent = totalPendentes;
+            document.getElementById('total-recebidas').textContent = totalRecebidas.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('total-pendentes').textContent = totalPendentes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         function ordenarNotasPorData() {
