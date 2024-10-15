@@ -96,12 +96,12 @@
                 <td>{{ nota[5] }}</td>   <!-- Produto/Serviço -->
                 <td>{{ nota[6] }}</td>   <!-- Valor -->
                 <td>{{ 'Sim' if nota[7] == 1 else ('Não' if nota[10] == 0 else 'Não') }}</td>  <!-- Recebido -->
-                <td>{{ nota[8] or 'N/A' }}</td>  <!-- Forma de Pagamento -->
-                <td>{{ nota[9] or 'N/A' }}</td>  <!-- Data de Recebimento -->
-                <td>{{ nota[10] or 'N/A' }}</td>  <!-- Verba -->
-                <td>{{ nota[11] or 'N/A' }}</td>  <!-- Responsável pela Entrega -->
-                <td>{{ nota[12] or 'N/A' }}</td>  <!-- Data de Entrega -->
-                <td>{{ nota[13] or 'N/A' }}</td>  <!-- Quem Recebeu -->
+                <td>{{ nota[8] or '' }}</td>  <!-- Forma de Pagamento -->
+                <td>{{ nota[9] or '' }}</td>  <!-- Data de Recebimento -->
+                <td>{{ nota[10] or '' }}</td>  <!-- Verba -->
+                <td>{{ nota[11] or '' }}</td>  <!-- Responsável pela Entrega -->
+                <td>{{ nota[12] or '' }}</td>  <!-- Data de Entrega -->
+                <td>{{ nota[13] or '' }}</td>  <!-- Quem Recebeu -->
                 <td class="actions">
                     <a href="/edit/{{ nota[0] }}">Editar</a> |
                     <a href="/delete/{{ nota[0] }}" onclick="return confirm('Tem certeza que deseja excluir esta nota fiscal?');">Excluir</a>
